@@ -79,12 +79,7 @@ jobs:
                     "tag": "div",
                     "text": {
                       "tag": "lark_md",
-                      "content": "发版时间:${{ env.current_time }}\n
-                                  分支: ${{ github.ref_name }}\n
-                                  提交: [查看提交的commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n
-                                  发版: [查看GithubAction](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n
-                                  网址: https://app.ithinkai.cn\n
-                                  测试人员: @飞鹰"
+                      "content": "发版时间:${{ env.current_time }}\n 分支: ${{ github.ref_name }}\n 提交: [查看提交的commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n 发版: [查看GithubAction](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n 网址: https://app.ithinkai.cn\n 测试人员: @飞鹰"
                     }
                   }
                 ]
