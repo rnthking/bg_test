@@ -39,5 +39,4 @@ jobs:
 
       - name: Activate environment and test with pytest
         run: |
-          pipenv sync --dev
           pipenv run pytest
