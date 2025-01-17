@@ -1,4 +1,4 @@
-name: Python application
+name: Python application with Feishu Notifications
 
 on:
   push:
@@ -10,17 +10,23 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  build-and-notify:
     runs-on: ubuntu-latest
 
+    env:  # 定义全局环境变量
+      FEISHU_WEBHOOK: "https://open.feishu.cn/open-apis/bot/v2/hook/74ea8fdc-be23-4600-ab39-2fe2cb118bd5"
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@v4
+
       - name: Set up Python 3.9
         uses: actions/setup-python@v3
         with:
           python-version: "3.9"
 
-      - uses: actions/cache@v3
+      - name: Restore pipenv cache
+        uses: actions/cache@v3
         id: cache-pipenv
         with:
           path: ~/.local/share/virtualenvs
@@ -41,5 +47,34 @@ jobs:
           pipenv install --dev  # 自动过滤已满足的依赖
 
       - name: Run tests with pytest
+        id: pytest  # 通过 ID 记录此步骤的结果
         run: |
           pipenv run pytest
+
+      # 测试成功通知飞书
+      - name: Notify Feishu (success)
+        if: success()  # 仅在所有前置步骤成功时执行
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{
+              "msg_type": "text",
+              "content": {
+                "text": "✅ 测试成功！\n分支: ${{ github.ref_name }}\n提交: ${{ github.sha }}\n运行时间: ${{ github.run_id }}"
+              }
+            }' \
+            $FEISHU_WEBHOOK
+
+      # 测试失败通知飞书
+      - name: Notify Feishu (failure)
+        if: failure()  # 仅在任意步骤失败时执行
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{
+              "msg_type": "text",
+              "content": {
+                "text": "❌ 测试失败！\n分支: ${{ github.ref_name }}\n提交: ${{ github.sha }}\n运行时间: ${{ github.run_id }}"
+              }
+            }' \
+            $FEISHU_WEBHOOK
