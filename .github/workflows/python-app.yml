@@ -106,7 +106,7 @@ jobs:
             -d '{
               "msg_type": "text",
               "content": {
-                "text": "❌ 测试失败！\n分支: ${{ github.ref_name }}\n提交: ${{ github.sha }}\n运行时间: ${{ github.run_id }}\n htts://app.ithinkai.cn"
+                "text": "❌ 测试失败！\n分支: ${{ github.ref_name }}\n提交: ${{ github.sha }}\n运行时间: ${{ github.run_id }}\n 链接:https://app.ithinkai.cn\n 测试人员:@影猫 @飞鹰"
               }
             }' \
             $FEISHU_WEBHOOK
