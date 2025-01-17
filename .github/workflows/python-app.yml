@@ -28,7 +28,7 @@ jobs:
       - name: Get Git Commit Log
         id: git_log
         run: |
-          echo "git_log=$(git log -1 --pretty=format:'%h %an %s %ci')" >> $GITHUB_ENV
+          echo "git_log=$(git log -1 --pretty=format:'%s')" >> $GITHUB_ENV
 
       - name: Set up Python 3.9
         uses: actions/setup-python@v3
