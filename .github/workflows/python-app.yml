@@ -20,6 +20,12 @@ jobs:
       - name: Get current time
         id: get-time
         run: echo "current_time=$(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+      
+      # 获取提交日志
+      - name: Get Git Commit Log
+        id: git_log
+        run: |
+          echo "git_log=$(git log -1 --pretty=format:'%h %an %s %ci')" >> $GITHUB_ENV
 
       - name: Check out code
         uses: actions/checkout@v4
@@ -79,7 +85,7 @@ jobs:
                     "tag": "div",
                     "text": {
                       "tag": "lark_md",
-                      "content": "发版时间:${{ env.current_time }}\n 分支: ${{ github.ref_name }}\n 提交: [查看提交的commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n 发版: [查看GithubAction](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n 网址: https://app.ithinkai.cn\n 测试人员: @飞鹰"
+                      "content": "发版时间:${{ env.current_time }}\n更新功能:${{env.git_log}}分支: ${{ github.ref_name }}\n 提交: [查看提交的commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n 发版: [查看GithubAction](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n 网址: https://app.ithinkai.cn\n 测试人员: @飞鹰"
                     }
                   }
                 ]
