@@ -58,9 +58,41 @@ jobs:
           curl -X POST \
             -H "Content-Type: application/json" \
             -d '{
-              "msg_type": "text",
-              "content": {
-                "text": "✅ 测试成功！\n分支: ${{ github.ref_name }}\n提交: ${{ github.sha }}\n运行时间: ${{ github.run_id }}"
+              "msg_type": "interactive",
+              "card": {
+                "config": {
+                  "wide_screen_mode": true
+                },
+                "header": {
+                  "title": {
+                    "tag": "plain_text",
+                    "content": "✅ 测试成功！"
+                  },
+                  "template": "green"
+                },
+                "elements": [
+                  {
+                    "tag": "div",
+                    "text": {
+                      "tag": "lark_md",
+                      "content": "**🎉 测试已通过！**\n分支: ${{ github.ref_name }}\n提交: [查看提交详情](https://github.com/${{ github.repository }}/commit/${{ github.sha }})"
+                    }
+                  },
+                  {
+                    "tag": "action",
+                    "actions": [
+                      {
+                        "tag": "button",
+                        "text": {
+                          "tag": "plain_text",
+                          "content": "查看日志"
+                        },
+                        "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                        "type": "default"
+                      }
+                    ]
+                  }
+                ]
               }
             }' \
             $FEISHU_WEBHOOK
