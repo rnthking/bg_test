@@ -36,10 +36,9 @@ jobs:
         run: |
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Install dependencies if cache miss
-        if: steps.cache-pipenv.outputs.cache-hit != 'true'
+      - name: Install dependencies
         run: |
-          pipenv install --dev
+          pipenv install --dev  # 自动过滤已满足的依赖
 
       - name: Run tests with pytest
         run: |
