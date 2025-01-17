@@ -17,6 +17,10 @@ jobs:
       FEISHU_WEBHOOK: "https://open.feishu.cn/open-apis/bot/v2/hook/74ea8fdc-be23-4600-ab39-2fe2cb118bd5"
 
     steps:
+      - name: Get current time
+        id: get-time
+        run: echo "current_time=$(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+
       - name: Check out code
         uses: actions/checkout@v4
 
@@ -66,7 +70,7 @@ jobs:
                 "header": {
                   "title": {
                     "tag": "plain_text",
-                    "content": "✅ 测试成功！"
+                    "content": "✅ 发版成功！"
                   },
                   "template": "green"
                 },
@@ -75,32 +79,20 @@ jobs:
                     "tag": "div",
                     "text": {
                       "tag": "lark_md",
-                      "content": "**🎉 测试已通过！**\n分支: ${{ github.ref_name }}\n提交: [查看提交详情](https://github.com/${{ github.repository }}/commit/${{ github.sha }})"
+                      "content": "发版时间:${{ env.current_time }}\n
+                                  分支: ${{ github.ref_name }}\n
+                                  提交: [查看提交的commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n
+                                  发版: [查看GithubAction](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n
+                                  网址: https://app.ithinkai.cn\n
+                                  测试人员: "
                     }
                   },
-                  {
-                    "tag": "action",
-                    "actions": [
-                      {
-                        "tag": "button",
-                        "text": {
-                          "tag": "plain_text",
-                          "content": "查看日志"
-                        },
-                        "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-                        "type": "default"
-                      },
-                      {
-                        "tag": "button",
-                        "text": {
-                          "tag": "plain_text",
-                          "content": "查看日志"
-                        },
-                        "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-                        "type": "default"
-                      }
-                    ]
-                  }
+                  "mentions": [
+                    {
+                      "tag": "open_id",
+                      "open_id": "a00t10ce-d973-4b2f-a75f-17b43ea155a8"
+                    }
+                  ]
                 ]
               }
             }' \
