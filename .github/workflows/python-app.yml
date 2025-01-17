@@ -85,7 +85,7 @@ jobs:
                     "tag": "div",
                     "text": {
                       "tag": "lark_md",
-                      "content": "发版时间:${{ env.current_time }}\n更新功能:${{env.git_log}}\n分支:${{ github.ref_name }}\n提交: [查看提交的commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n发版: [查看GithubAction](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n 网址: https://app.ithinkai.cn\n测试人员:@影猫"
+                      "content": "发版时间:${{ env.current_time }}\n更新功能:${{env.git_log}}\n分支:${{ github.ref_name }}\n提交: [查看提交的commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n发版: [查看GithubAction](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n网址: https://app.ithinkai.cn\n测试人员: @影猫"
                     }
                   }
                 ]
@@ -93,16 +93,34 @@ jobs:
             }' \
             $FEISHU_WEBHOOK
 
-      # 测试失败通知飞书
+      # 发版失败
       - name: Notify Feishu (failure)
         if: failure()  # 仅在任意步骤失败时执行
         run: |
           curl -X POST \
             -H "Content-Type: application/json" \
             -d '{
-              "msg_type": "text",
-              "content": {
-                "text": "❌ 测试失败！\n分支: ${{ github.ref_name }}\n提交: ${{ github.sha }}\n运行时间: ${{ github.run_id }}\n 链接:https://app.ithinkai.cn\n 测试人员:@影猫 @飞鹰"
+              "msg_type": "interactive",
+              "card": {
+                "config": {
+                  "wide_screen_mode": true
+                },
+                "header": {
+                  "title": {
+                    "tag": "plain_text",
+                    "content": "❌ 发版成功！"
+                  },
+                  "template": "red"
+                },
+                "elements": [
+                  {
+                    "tag": "div",
+                    "text": {
+                      "tag": "lark_md",
+                      "content": "发版时间:${{ env.current_time }}\n更新功能:${{env.git_log}}\n分支:${{ github.ref_name }}\n提交: [查看提交的commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n发版: [查看GithubAction](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n网址: https://app.ithinkai.cn\n测试人员: @飞鹰"
+                    }
+                  }
+                ]
               }
             }' \
             $FEISHU_WEBHOOK
