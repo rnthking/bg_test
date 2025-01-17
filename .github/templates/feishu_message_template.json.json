@@ -1,0 +1,38 @@
+{
+    "msg_type": "interactive",
+    "card": {
+        "config": {
+            "wide_screen_mode": true
+        },
+        "header": {
+            "title": {
+                "tag": "plain_text",
+                "content": "{{status}}：发版通知"
+            },
+            "template": "{{header_color}}"
+        },
+        "elements": [
+            {
+                "tag": "div",
+                "text": {
+                    "tag": "lark_md",
+                    "content": "**功能说明**:\n{{release_notes}}\n\n**测试链接**: [点击访问]({{test_url}})"
+                }
+            },
+            {
+                "tag": "div",
+                "text": {
+                    "tag": "lark_md",
+                    "content": "**相关人员**:\n责任人: <at id={{responsible_user_id}}>{{responsible_user_name}}</at>"
+                }
+            },
+            {
+                "tag": "div",
+                "text": {
+                    "tag": "lark_md",
+                    "content": "**相关链接**:\n- [GitHub Actions 运行日志]({{github_actions_url}})\n- [Commit 点]({{commit_url}})"
+                }
+            }
+        ]
+    }
+}

@@ -89,6 +89,15 @@ jobs:
                         },
                         "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
                         "type": "default"
+                      },
+                      {
+                        "tag": "button",
+                        "text": {
+                          "tag": "plain_text",
+                          "content": "查看日志"
+                        },
+                        "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                        "type": "default"
                       }
                     ]
                   }
