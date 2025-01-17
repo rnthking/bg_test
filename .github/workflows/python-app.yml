@@ -24,25 +24,20 @@ jobs:
           python-version: "3.9"
 
       - uses: actions/cache@v3
+        id: cache-pipenv
         with:
           path: ~/.local/share/virtualenvs
           key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pipenv-
-              
-      - name: Check cache
-        run: |
-            echo "Checking pip cache"
-            pip cache dir
-            echo "Checking pipenv cache"
-            pipenv --venv || true
 
       - name: Install dependencies
+        if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
           pip install pipenv
-          pipenv install --deploy
-          pipenv install pytest  
+          pipenv install
+
+      - name: Activate environment and test with pytest
+        run: |
+          pipenv sync --dev
           pipenv run pytest
-
-
-
