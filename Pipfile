@@ -9,6 +9,7 @@ playwright = "*"
 uvicorn = "*"
 pytest = "*"
 httpx = "*"
+requests = "*"
 
 [dev-packages]
 
