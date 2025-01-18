@@ -24,6 +24,14 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v39
+      
+      - name: check changed files
+        if: contains(steps.changed-files.outputs.all_changed_files, 'main.py')
+        run: echo " main.py changed 🚀🚀"
+
       # 获取提交日志
       - name: Get Git Commit Log
         id: git_log
@@ -85,7 +93,7 @@ jobs:
                     "tag": "div",
                     "text": {
                       "tag": "lark_md",
-                      "content": "发版时间:${{ env.current_time }}\n更新功能:${{env.git_log}}\n分支:${{ github.ref_name }}\n提交: [查看提交的commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n发版: [查看GithubAction](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n网址: https://app.ithinkai.cn\n测试人员: @影猫"
+                      "content": "发版时间:${{ env.current_time }}\n更新功能: ${{env.git_log}}\n分支:${{ github.ref_name }}\n提交: [查看提交的commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n发版: [查看GithubAction](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n网址: https://app.ithinkai.cn\n测试人员: @影猫"
                     }
                   }
                 ]
@@ -108,7 +116,7 @@ jobs:
                 "header": {
                   "title": {
                     "tag": "plain_text",
-                    "content": "❌ 发版成功！"
+                    "content": "❌ 发版失败！"
                   },
                   "template": "red"
                 },
